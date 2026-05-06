@@ -1,0 +1,55 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+-
+# Load Iris dataset
+df = pd.read_csv("iris.csv")
+
+# Display first few rows
+df.head()
+
+-
+print("Shape of dataset:", df.shape)
+print("\nColumn Names:\n", df.columns)
+print("\nData Types:\n")
+print(df.dtypes)
+
+-
+# Classify features manually
+numeric_features = df.select_dtypes(include=['int64', 'float64']).columns
+categorical_features = df.select_dtypes(include=['object']).columns
+
+print("Numeric Features:", list(numeric_features))
+print("Categorical Features:", list(categorical_features))
+
+-
+df.hist(figsize=(10, 8))
+plt.suptitle("Histograms of Features")
+plt.show()
+
+-
+plt.figure(figsize=(10, 6))
+sns.boxplot(data=df[numeric_features])
+plt.title("Box Plot of Numeric Features")
+plt.show()
+
+-
+for col in numeric_features:
+    plt.figure()
+    sns.boxplot(y=df[col])
+    plt.title(f"Box Plot of {col}")
+    plt.show()
+
+-
+for col in numeric_features:
+    Q1 = df[col].quantile(0.25)
+    Q3 = df[col].quantile(0.75)
+    IQR = Q3 - Q1
+
+    lower = Q1 - 1.5 * IQR
+    upper = Q3 + 1.5 * IQR
+
+    outliers = df[(df[col] < lower) | (df[col] > upper)]
+    
+    print(f"{col} → Number of outliers:", outliers.shape[0])
