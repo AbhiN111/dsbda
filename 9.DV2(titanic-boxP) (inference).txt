@@ -1,0 +1,21 @@
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+-
+data = pd.read_csv(r"C:\Users\PC\OneDrive\Desktop\DS\Titanic1.csv")
+
+-
+data['sex'].value_counts().plot(kind="pie", autopct="%.2f")
+plt.show()
+
+-
+sns.histplot(data['age'].dropna(), kde=True)
+plt.show()
+
+-
+ct = pd.crosstab(data['class'], data['survived'])
+print(ct)
+sns.heatmap(ct, annot=True, cmap="YlGnBu")
+plt.show()
